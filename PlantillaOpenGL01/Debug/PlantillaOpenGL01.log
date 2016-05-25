@@ -1,0 +1,65 @@
+﻿Compilación iniciada a las 24/05/2016 22:35:24.
+     1>Proyecto "C:\dev\EfectoOla\PlantillaOpenGL01\PlantillaOpenGL01.vcxproj" en el nodo 2 (Build destinos).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\dev\opengl\freeglut\include /I"C:\dev\opengl\glew-1.7.0\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(23): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(28): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(63): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(63): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(64): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(64): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(66): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(66): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(67): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(67): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(69): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(69): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(70): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(70): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(72): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(72): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(73): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(73): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(86): warning C4101: 'aspectratio' : variable local sin referencia
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(129): warning C4305: '+=' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(181): warning C4305: '+=' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(204): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(205): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(208): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(209): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(212): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(213): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(216): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(217): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(220): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(221): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(224): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(225): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(228): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(229): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(232): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(233): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(236): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(237): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(240): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(241): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(267): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(268): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(276): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(277): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(278): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(258): warning C4101: 'zLocal' : variable local sin referencia
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(258): warning C4101: 'xExtent' : variable local sin referencia
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(259): warning C4101: 'loopX' : variable local sin referencia
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(258): warning C4101: 'xLocal' : variable local sin referencia
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(259): warning C4101: 'loopZ' : variable local sin referencia
+     1>c:\dev\efectoola\plantillaopengl01\main.cpp(258): warning C4101: 'zExtent' : variable local sin referencia
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\dev\EfectoOla\Debug\PlantillaOpenGL01.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86" /LIBPATH:C:\dev\opengl\freeglut\lib /LIBPATH:"C:\dev\opengl\glew-1.7.0\lib" glew32.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\dev\EfectoOla\Debug\PlantillaOpenGL01.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\dev\EfectoOla\Debug\PlantillaOpenGL01.lib" /MACHINE:X86 Debug\main.obj
+         PlantillaOpenGL01.vcxproj -> C:\dev\EfectoOla\Debug\PlantillaOpenGL01.exe
+     1>Compilación del proyecto terminada "C:\dev\EfectoOla\PlantillaOpenGL01\PlantillaOpenGL01.vcxproj" (Build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:03.88
