@@ -1,12 +1,9 @@
 #include <math.h>
-#include <GL/glew.h>
-#include <GL/freeglut.h>
 #include <iostream>
 #include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <sstream>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 
 /* 
 
@@ -21,24 +18,23 @@ using namespace std;
 #define DEF_floorGridXSteps 10.0
 #define DEF_floorGridZSteps 10.0
 
-//GLfloat L[0] = 8.0,L[1] = 4.0,A[0] = 0.4,A[1] = 0.0,S[0] = 2.0,S[1] = 0.0; /* inicializo en los valores del caso de prueba 1 */
 GLfloat L[2] = {8.0,4.0};
 GLfloat A[2] = {0.4,0.0};
 GLfloat S[2] = {2.0,0.0};
 GLfloat D[2][2] = {{0.0,-1.0},{1.0,1.0}}; // 0 coord x, 1 coord z
 GLfloat knots[25]; 
-GLfloat supKnots = 0.05; // valor auxiliar para los knots del 4 al 20 
+GLfloat supKnots = 0.05;      // valor auxiliar para los knots del 4 al 20 
 GLfloat ctlpoints[21][21][3]; // 21x21 puntos de control; 0 coord x, 1 coord y, 2 coord z
 
-bool wave; // true = ola 1; false = ola 2
-bool mover = false;  // variable que indica si las olas estan en movimeinto o paradas
+bool wave;            // true = ola 1; false = ola 2
+bool mover = false;   // variable que indica si las olas estan en movimeinto o paradas
 
 GLfloat waves[2]; // arreglo para manejar las cosas de cada ola
 
 // Variables para la funcion
 GLfloat frecuency[2]; // w de la funcion
-GLfloat phase[2]; // phase-constant de la funcion
-GLfloat wtime = 0.0; // tiempo de la funcion
+GLfloat phase[2];     // phase-constant de la funcion
+GLfloat wtime = 0.0;  // tiempo de la funcion
 GLfloat D1normalizado[2],D2normalizado[2]; 
 
 GLUnurbsObj *theNurb;
@@ -94,8 +90,7 @@ void my_init(){
    font_index = 0;
 }
 
-void imprimir_bitmap_string(void* font, const char* s, float y){
-    glRasterPos2f(0,y);
+void imprimir_bitmap_string(void* font, const char* s){
     if (s && strlen(s)) {
         while (*s) {
             glutBitmapCharacter(font, *s);
@@ -113,8 +108,8 @@ void convertir_ConstChar(const char* s, float i){
     imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, C);
 }
 
-void dibujarTexto(int n) {
-  const char* bitmap_font_names[7] = {
+void dibujarTexto() {
+  const char* textos[7] = {
     "Ola ",
     "wL = ",  
     "aP = ",
@@ -123,35 +118,39 @@ void dibujarTexto(int n) {
     "dirY = "
   };
 
-  GLfloat y = 6.0;
+  GLfloat y = 0.0;
 
   for(int i=1; i<3 ; i++){
-    glColor3f(1.0,0,0);
-    glRasterPos2f(0,y);
-    convertir_ConstChar(bitmap_font_names[0],i);
+    glColor3f(1,0,0);
+    glRasterPos3f(0, y, 6);
+    y -= 0.4;
+    convertir_ConstChar(textos[0],i);
+
     glColor3f(1.0,1.0,1.0);
-    for(int j=1; j<6 ; j++){
-        glRasterPos2f(0,y);
+      for(int j=1; j<7 ; j++){
+        glRasterPos3f(0, y, 6);
         y -= 0.4;
         switch (j){
             case 1:
-                convertir_ConstChar(bitmap_font_names[j],L[i]);
+                convertir_ConstChar(textos[j],L[i]);
             break;
             case 2:
-                convertir_ConstChar(bitmap_font_names[j],A[i]);
+                convertir_ConstChar(textos[j],A[i]);
             break;
             case 3: 
-                convertir_ConstChar(bitmap_font_names[j],S[i]);
+                convertir_ConstChar(textos[j],S[i]);
             break;
             case 4: 
-                convertir_ConstChar(bitmap_font_names[j],D[i][0]);
+                convertir_ConstChar(textos[j],D[i][0]);
             break;
             case 5: 
-                convertir_ConstChar(bitmap_font_names[j],D[i][1]);
+                convertir_ConstChar(textos[j],D[i][1]);
+            break;
+            case 6: 
+                if(i==1) imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, "===================");
             break;
         }        
-    }
-    if(i==1) imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, "===================");
+      }
   }
 
 }
@@ -351,24 +350,27 @@ void render(){
     glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable( GL_LINE_SMOOTH ); 
 
-    dibujarTexto(2);
 
     glPushMatrix();
+      glColor3f(1,1,1);
+      glTranslatef(-6,6.0,6); 
+      dibujarTexto();
+    glPopMatrix();
 
-    gluBeginSurface(theNurb);
-    
-    gluNurbsSurface(theNurb, 
-                   25, knots, 25, knots,
-                   21 * 3, 3, &ctlpoints[0][0][0], 
-                   4, 4, GL_MAP2_VERTEX_3);
-    /*
+    glPushMatrix();
+      gluBeginSurface(theNurb);
+      
+      gluNurbsSurface(theNurb, 
+                     25, knots, 25, knots,
+                     21 * 3, 3, &ctlpoints[0][0][0], 
+                     4, 4, GL_MAP2_VERTEX_3);
+      /*
 
-        No cambien los numeros de la funcion, solo deben de poner los nombres de las variables correspondiente.
-        
-    */
+          No cambien los numeros de la funcion, solo deben de poner los nombres de las variables correspondiente.
+          
+      */
 
-    gluEndSurface(theNurb);
-    
+      gluEndSurface(theNurb);
     glPopMatrix();
     
     
