@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 
 /* 
 
@@ -24,8 +24,9 @@ GLfloat D[2][2] = {{0.0,-1.0},{1.0,1.0}}; // 0 coord x, 1 coord z
 GLfloat knots[25]; 
 GLfloat supKnots = 0.05;      // valor auxiliar para los knots del 4 al 20 
 GLfloat ctlpoints[21][21][3]; // 21x21 puntos de control; 0 coord x, 1 coord y, 2 coord z
-GLfloat interlineado = 0.4;
 
+float posText;      //posicion del texto
+float interlineado; //interlineado del texto
 GLvoid *font_style = GLUT_BITMAP_9_BY_15; //tipo de letra
 
 bool wave  = true;            // true = ola 1; false = ola 2
@@ -103,6 +104,9 @@ void imprimir_bitmap_string(void* font, const char* s){
 }
 
 void convertirTexto(const char* s, float i){
+    glRasterPos3f(0, posText, 0);
+    posText -= interlineado;
+
     std::stringstream ss;
     ss << i;
     std::string num(ss.str());
@@ -111,64 +115,49 @@ void convertirTexto(const char* s, float i){
     imprimir_bitmap_string(font_style, C);
 }
 
-GLfloat dibujarVariables(int i, GLfloat y, int s){
+void dibujarVariables(int i, int s){
   glColor3f(0.5f,0.0f,0.8f);
-  glRasterPos3f(0, y, 0);
-  y -= interlineado;
   convertirTexto(textos[s],i);
 
   glColor3f(1.0,1.0,1.0);
-  for(int j=1; j<6 ; j++){
-    glRasterPos3f(0, y, 0);
-    y -= interlineado;
-    switch (j){
-        case 1:
-            convertirTexto(textos[j],L[i-1]);
-        break;
-        case 2:
-            convertirTexto(textos[j],A[i-1]);
-        break;
-        case 3: 
-            convertirTexto(textos[j],S[i-1]);
-        break;
-        case 4: 
-            convertirTexto(textos[j],D[i-1][0]);
-        break;
-        case 5: 
-            convertirTexto(textos[j],D[i-1][1]);
-        break;
-    }        
-  }
-  return y;
+  convertirTexto(textos[1],L[i-1]);
+  convertirTexto(textos[2],A[i-1]);
+  convertirTexto(textos[3],S[i-1]);
+  convertirTexto(textos[4],D[i-1][0]);
+  convertirTexto(textos[5],D[i-1][1]);
 }
 
 void dibujarTexto() {
-  GLfloat y;
+  posText = 0.0;
 
-  if(wave) y = dibujarVariables(1, 0.0, 6);
-  else y = dibujarVariables(1, 0.0, 0);
+  if(wave) dibujarVariables(1, 6);
+  else dibujarVariables(1, 0);
 
   glColor3f(0.7,0.7,0.7);
-  glRasterPos3f(0, y, 0);
-  y -= interlineado;
+  glRasterPos3f(0, posText, 0);
+  posText -= interlineado;
   imprimir_bitmap_string(font_style, "==========");
 
-  if(wave) dibujarVariables(2, y, 0);
-  else dibujarVariables(2, y, 6);
+  if(wave) dibujarVariables(2, 0);
+  else dibujarVariables(2, 6);
 }
 // ----------------------------FIN TEXTO----------------------------
 
 void changeViewport(int w, int h) {
-    
-    float aspectratio;
+  float aspectratio;
 
-    if (h==0) h=1;
+  if (h==0) h=1;
 
-   glViewport (0, 0, (GLsizei) w, (GLsizei) h); 
-   glMatrixMode (GL_PROJECTION);
-   glLoadIdentity ();
-   gluPerspective(30, (GLfloat) w/(GLfloat) h, 1.0, 200.0);
-   glMatrixMode (GL_MODELVIEW);
+  glViewport (0, 0, (GLsizei) w, (GLsizei) h); 
+
+  if(h <320) interlineado = 0.6;
+  else if(h < 430) interlineado = 0.5;
+  else interlineado = 0.4;
+
+  glMatrixMode (GL_PROJECTION);
+  glLoadIdentity ();
+  gluPerspective(30, (GLfloat) w/(GLfloat) h, 1.0, 200.0);
+  glMatrixMode (GL_MODELVIEW);
 
 }
 
@@ -331,16 +320,7 @@ void render(){
     glLoadIdentity ();                       
     gluLookAt (25.0, 12.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    glPushMatrix();
-      glDisable(GL_LIGHTING);
-      glRotatef(-10,1.0f,0.0f,0.0f); 
-      glTranslatef(0,5.2,12); 
-      dibujarTexto();
-      glEnable(GL_LIGHTING);
-    glPopMatrix();
-
     // Luz y material
-
     GLfloat mat_diffuse[] = { 0.6, 0.6, 0.9, 1.0 };
     GLfloat mat_specular[] = { 0.8, 0.8, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 60.0 };
@@ -399,6 +379,15 @@ void render(){
     glDisable(GL_BLEND);
     glDisable(GL_LINE_SMOOTH);
 
+    //TEXTO
+    glPushMatrix();
+      glDisable(GL_LIGHTING);
+      glRotatef(-10,1.0f,0.0f,0.0f); 
+      glTranslatef(0,5.2,11.4); 
+      dibujarTexto();
+      glEnable(GL_LIGHTING);
+    glPopMatrix();
+
     glutSwapBuffers();
 }
 
@@ -417,12 +406,13 @@ int main (int argc, char** argv) {
     glutReshapeFunc(changeViewport);
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
-    
+        /*
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
     }
+    */
 
     glutMainLoop();
     return 0;
