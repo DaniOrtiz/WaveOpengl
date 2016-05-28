@@ -5,10 +5,13 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+
+
+#include <stdlib.h>
+#include <stdio.h>
 /* 
 
 - M_PI es la constante que viene en la libreria de math.h, avisame si te funciona
-- Coloque una varable nueva "inicio", sin ella cada vez que apreta r se acelera la ola.
 - Cambie las variables a arreglos para que fuera mas sencillo mostrar el texto
 
 */
@@ -26,7 +29,9 @@ GLfloat knots[25];
 GLfloat supKnots = 0.05;      // valor auxiliar para los knots del 4 al 20 
 GLfloat ctlpoints[21][21][3]; // 21x21 puntos de control; 0 coord x, 1 coord y, 2 coord z
 
-bool wave;            // true = ola 1; false = ola 2
+GLvoid *font_style = GLUT_BITMAP_9_BY_15; //tipo de letra
+
+bool wave  = true;            // true = ola 1; false = ola 2
 bool mover = false;   // variable que indica si las olas estan en movimeinto o paradas
 
 GLfloat waves[2]; // arreglo para manejar las cosas de cada ola
@@ -99,13 +104,13 @@ void imprimir_bitmap_string(void* font, const char* s){
     }
 }
 
-void convertir_ConstChar(const char* s, float i){
+void convertirTexto(const char* s, float i){
     std::stringstream ss;
     ss << i;
     std::string num(ss.str());
     string c = s + num;
     const char *C = c.c_str();
-    imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, C);
+    imprimir_bitmap_string(font_style, C);
 }
 
 void dibujarTexto() {
@@ -124,7 +129,7 @@ void dibujarTexto() {
     glColor3f(1,0,0);
     glRasterPos3f(0, y, 6);
     y -= 0.4;
-    convertir_ConstChar(textos[0],i);
+    convertirTexto(textos[0],i);
 
     glColor3f(1.0,1.0,1.0);
       for(int j=1; j<7 ; j++){
@@ -132,22 +137,22 @@ void dibujarTexto() {
         y -= 0.4;
         switch (j){
             case 1:
-                convertir_ConstChar(textos[j],L[i]);
+                convertirTexto(textos[j],L[i-1]);
             break;
             case 2:
-                convertir_ConstChar(textos[j],A[i]);
+                convertirTexto(textos[j],A[i-1]);
             break;
             case 3: 
-                convertir_ConstChar(textos[j],S[i]);
+                convertirTexto(textos[j],S[i-1]);
             break;
             case 4: 
-                convertir_ConstChar(textos[j],D[i][0]);
+                convertirTexto(textos[j],D[i-1][0]);
             break;
             case 5: 
-                convertir_ConstChar(textos[j],D[i][1]);
+                convertirTexto(textos[j],D[i-1][1]);
             break;
             case 6: 
-                if(i==1) imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, "===================");
+                if(i==1) imprimir_bitmap_string(font_style, "===================");
             break;
         }        
       }
@@ -219,7 +224,6 @@ void init(){
    gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
     
 }
-
 
 float funcionH(GLfloat cx, GLfloat cz, GLfloat tiempo){
 
@@ -319,12 +323,16 @@ void render(){
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    GLfloat zExtent, xExtent, xLocal, zLocal;
-    int loopX, loopZ;
-
     glLoadIdentity ();                       
     gluLookAt (25.0, 12.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     
+    glPushMatrix();
+      glRotatef(-10,1.0f,0.0f,0.0f); 
+      glColor3f(1,1,1);
+      glTranslatef(0,5,6); 
+      dibujarTexto();
+    glPopMatrix();
+
     // Luz y material
 
     GLfloat mat_diffuse[] = { 0.6, 0.6, 0.9, 1.0 };
@@ -335,7 +343,6 @@ void render(){
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
     
-
     GLfloat light_ambient[] = { 0.0, 0.0, 0.2, 1.0 };
     GLfloat light_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
     GLfloat light_specular[] = { 0.6, 0.6, 0.6, 1.0 };
@@ -349,13 +356,6 @@ void render(){
     //Suaviza las lineas
     glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable( GL_LINE_SMOOTH ); 
-
-
-    glPushMatrix();
-      glColor3f(1,1,1);
-      glTranslatef(-6,6.0,6); 
-      dibujarTexto();
-    glPopMatrix();
 
     glPushMatrix();
       gluBeginSurface(theNurb);
@@ -395,13 +395,6 @@ void render(){
     glDisable(GL_LINE_SMOOTH);
 
     glutSwapBuffers();
-}
-
-void animacion(int value) {
-    
-    glutTimerFunc(10,animacion,1);
-    glutPostRedisplay();
-    
 }
 
 int main (int argc, char** argv) {
