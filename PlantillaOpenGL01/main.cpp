@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 
 /* 
 
@@ -268,44 +268,44 @@ void Keyboard(unsigned char key, int x, int y){
             wave = false;     
         break;
         case 'a':
-            if (wave) L[0] = L[0] - 0.1;
-            else L[1] = L[1] - 0.1;
+            if (wave) L[0] -= 0.1;
+            else L[1] -= 0.1;
         break;
         case 'z':
-            if (wave) L[0] = L[0] + 0.1;
-            else L[1] = L[1] + 0.1;
+            if (wave) L[0] += 0.1;
+            else L[1] += 0.1;
         break;
         case 's':
-            if (wave) A[0] = A[0] - 0.1;
-            else A[1] = A[1] - 0.1;
+            if (wave) A[0] -= 0.1;
+            else A[1] -= 0.1;
         break;
         case 'x':
-            if (wave) A[0] = A[0] + 0.1;
-            else A[1] = A[1] + 0.1;
+            if (wave) A[0] += 0.1;
+            else A[1] += 0.1;
         break;
         case 'd':
-            if (wave) S[0] = S[0] - 0.1;
-            else S[1] = S[1] - 0.1;
+            if (wave) S[0] -= 0.1;
+            else S[1] -= 0.1;
         break;
         case 'c':
-            if (wave) S[0] = S[0] + 0.1;
-            else S[1] = S[1] + 0.1;
+            if (wave) S[0] += 0.1;
+            else S[1] += 0.1;
         break;
         case 'f':
-            if (wave) D[0][0] = D[0][0] - 0.1;
-            else D[1][0] = D[1][0] - 0.1;
+            if (wave) D[0][0] -= 0.1;
+            else D[1][0] -= 0.1;
         break;
         case 'v':
-            if (wave) D[0][0] = D[0][0] + 0.1;
-            else D[1][0] = D[1][0] + 0.1;
+            if (wave) D[0][0] += 0.1;
+            else D[1][0] += 0.1;
         break;
         case 'g':
-            if (wave) D[0][1] = D[0][1] - 0.1;
-            else D[1][1] = D[1][1] - 0.1;
+            if (wave) D[0][1] -= 0.1;
+            else D[1][1] -= 0.1;
         break;
         case 'b':
-            if (wave) D[0][1] = D[0][1] + 0.1;
-            else D[1][1] = D[1][1] - 0.1;
+            if (wave) D[0][1] += 0.1;
+            else D[1][1] += 0.1;
         break;
         default:
         break;
@@ -406,12 +406,13 @@ int main (int argc, char** argv) {
     glutReshapeFunc(changeViewport);
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
-    
+        /*
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
     }
+    */
 
     glutMainLoop();
     return 0;
