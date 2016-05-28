@@ -97,14 +97,13 @@ const char* textos[7] = {
   };
 
 void imprimir_bitmap_string(void* font, const char* s){
-    bool continuar = true;
     if (s && strlen(s)) {
-        while (*s && continuar) {
+        while (*s) {
             glutBitmapCharacter(font, *s);
             if(*s == '.'){
                 s++;
                 glutBitmapCharacter(font, *s);
-                continuar = false;
+                break;
             }
             s++;
         }
