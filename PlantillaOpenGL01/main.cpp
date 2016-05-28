@@ -5,10 +5,6 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-
-
-#include <stdlib.h>
-#include <stdio.h>
 /* 
 
 - M_PI es la constante que viene en la libreria de math.h, avisame si te funciona
@@ -85,16 +81,6 @@ void ejesCoordenada() {
 }
 
 // -------------------------------TEXTO-------------------------------
-typedef enum { MODE_BITMAP } mode_type;
-
-static mode_type mode;
-static int font_index;
-
-void my_init(){
-   mode = MODE_BITMAP;
-   font_index = 0;
-}
-
 void imprimir_bitmap_string(void* font, const char* s){
     if (s && strlen(s)) {
         while (*s) {
@@ -126,7 +112,7 @@ void dibujarTexto() {
   GLfloat y = 0.0;
 
   for(int i=1; i<3 ; i++){
-    glColor3f(1,0,0);
+    glColor3f(1.0,0.0,0.0);
     glRasterPos3f(0, y, 6);
     y -= 0.4;
     convertirTexto(textos[0],i);
@@ -152,7 +138,7 @@ void dibujarTexto() {
                 convertirTexto(textos[j],D[i-1][1]);
             break;
             case 6: 
-                if(i==1) imprimir_bitmap_string(font_style, "===================");
+                if(i==1) imprimir_bitmap_string(font_style, "==========");
             break;
         }        
       }
@@ -322,15 +308,16 @@ void Keyboard(unsigned char key, int x, int y){
 void render(){
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    
     glLoadIdentity ();                       
     gluLookAt (25.0, 12.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    
+
     glPushMatrix();
+      glDisable(GL_LIGHTING);
       glRotatef(-10,1.0f,0.0f,0.0f); 
-      glColor3f(1,1,1);
       glTranslatef(0,5,6); 
       dibujarTexto();
+      glEnable(GL_LIGHTING);
     glPopMatrix();
 
     // Luz y material
@@ -408,7 +395,6 @@ int main (int argc, char** argv) {
     glutCreateWindow("Nurbs Proyecto - Ola");
 
     init ();
-    my_init();
 
     glutReshapeFunc(changeViewport);
     glutDisplayFunc(render);
