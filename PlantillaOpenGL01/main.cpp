@@ -24,11 +24,13 @@ GLfloat D[2][2] = {{0.0,-1.0},{1.0,1.0}}; // 0 coord x, 1 coord z
 GLfloat knots[25]; 
 GLfloat supKnots = 0.05;      // valor auxiliar para los knots del 4 al 20 
 GLfloat ctlpoints[21][21][3]; // 21x21 puntos de control; 0 coord x, 1 coord y, 2 coord z
+GLfloat interlineado = 0.4;
 
 GLvoid *font_style = GLUT_BITMAP_9_BY_15; //tipo de letra
 
 bool wave  = true;            // true = ola 1; false = ola 2
-bool mover = false;   // variable que indica si las olas estan en movimeinto o paradas
+bool mover = false;           // variable que indica si las olas estan en movimeinto o paradas
+bool ctlpointsActive = false; // activar puntos de control
 
 GLfloat waves[2]; // arreglo para manejar las cosas de cada ola
 
@@ -112,13 +114,13 @@ void convertirTexto(const char* s, float i){
 GLfloat dibujarVariables(int i, GLfloat y, int s){
   glColor3f(0.5f,0.0f,0.8f);
   glRasterPos3f(0, y, 0);
-  y -= 0.4;
+  y -= interlineado;
   convertirTexto(textos[s],i);
 
   glColor3f(1.0,1.0,1.0);
   for(int j=1; j<6 ; j++){
     glRasterPos3f(0, y, 0);
-    y -= 0.4;
+    y -= interlineado;
     switch (j){
         case 1:
             convertirTexto(textos[j],L[i-1]);
@@ -148,7 +150,7 @@ void dibujarTexto() {
 
   glColor3f(0.7,0.7,0.7);
   glRasterPos3f(0, y, 0);
-  y -= 0.4;
+  y -= interlineado;
   imprimir_bitmap_string(font_style, "==========");
 
   if(wave) dibujarVariables(2, y, 0);
@@ -256,6 +258,11 @@ void animacionOla(int h) {
 
 void Keyboard(unsigned char key, int x, int y){
     switch (key){
+        case ' ': //activa los putnos de control
+            if(ctlpointsActive) ctlpointsActive = false;
+            else ctlpointsActive = true;
+            if(!mover) glutPostRedisplay(); 
+        break;
         case 'r':
             if(!mover){
                 mover = true;
@@ -266,12 +273,10 @@ void Keyboard(unsigned char key, int x, int y){
             mover = false;// se pausa la animacion de las olas.
         break;
         case '1': // Wave 1
-            wave = true;
-            if(!mover) glutPostRedisplay();        
+            wave = true;    
         break;
         case '2': // Wave 2
-            wave = false;
-            if(!mover) glutPostRedisplay();        
+            wave = false;     
         break;
         case 'a':
             if (wave) L[0] = L[0] - 0.1;
@@ -313,7 +318,10 @@ void Keyboard(unsigned char key, int x, int y){
             if (wave) D[0][1] = D[0][1] + 0.1;
             else D[1][1] = D[1][1] - 0.1;
         break;
+        default:
+        break;
     }
+    if(!mover) glutPostRedisplay();   
 }
 
 void render(){
@@ -373,7 +381,7 @@ void render(){
     
     
     /* Muestra los puntos de control */
-    /*
+    if(ctlpointsActive){
         int i,j;
         glPointSize(5.0);
         glDisable(GL_LIGHTING);
@@ -386,9 +394,8 @@ void render(){
         }
         glEnd();
         glEnable(GL_LIGHTING);
-    */
-        
-
+    }
+    
     glDisable(GL_BLEND);
     glDisable(GL_LINE_SMOOTH);
 
