@@ -2,13 +2,15 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 
 /* 
 
 - M_PI es la constante que viene en la libreria de math.h, avisame si te funciona
 - Cambie las variables a arreglos para que fuera mas sencillo mostrar el texto
+- agregue la funcion aumentar y disminuir para que influyera menos la resta de punto flotante 
+cuando esta cerca del 0
 
 */
 using namespace std;
@@ -95,9 +97,15 @@ const char* textos[7] = {
   };
 
 void imprimir_bitmap_string(void* font, const char* s){
+    bool continuar = true;
     if (s && strlen(s)) {
-        while (*s) {
+        while (*s && continuar) {
             glutBitmapCharacter(font, *s);
+            if(*s == '.'){
+                s++;
+                glutBitmapCharacter(font, *s);
+                continuar = false;
+            }
             s++;
         }
     }
@@ -245,6 +253,18 @@ void animacionOla(int h) {
     }
 }
 
+GLfloat aumentar(GLfloat i){
+    if((i + 0.1) < 0.1  && i + 0.1 >= -0.001) i = 0.0;
+    else i += 0.1;
+    return i;
+}
+
+GLfloat disminuir(GLfloat i){
+    if((i - 0.1) > -0.1 && (i - 0.1) <= 0.001 ) i = 0.0;
+    else i -= 0.1;
+    return i;
+}
+
 void Keyboard(unsigned char key, int x, int y){
     switch (key){
         case ' ': //activa los putnos de control
@@ -268,44 +288,44 @@ void Keyboard(unsigned char key, int x, int y){
             wave = false;     
         break;
         case 'a':
-            if (wave) L[0] -= 0.1;
-            else L[1] -= 0.1;
+            if (wave) L[0] = disminuir(L[0]);
+            else L[1] = disminuir(L[1]);
         break;
         case 'z':
-            if (wave) L[0] += 0.1;
-            else L[1] += 0.1;
+            if (wave) L[0] = aumentar(L[0]);
+            else L[1] = aumentar(L[1]);
         break;
         case 's':
-            if (wave) A[0] -= 0.1;
-            else A[1] -= 0.1;
+            if (wave) A[0] = disminuir(A[0]);
+            else A[1] = disminuir(A[1]);
         break;
         case 'x':
-            if (wave) A[0] += 0.1;
-            else A[1] += 0.1;
+            if (wave) A[0] = aumentar(A[0]);
+            else A[1] = aumentar(A[1]);
         break;
         case 'd':
-            if (wave) S[0] -= 0.1;
-            else S[1] -= 0.1;
+            if (wave) S[0] = disminuir(S[0]);
+            else S[1] = disminuir(S[1]);
         break;
         case 'c':
-            if (wave) S[0] += 0.1;
-            else S[1] += 0.1;
+            if (wave) S[0] = aumentar(S[0]);
+            else S[1] = aumentar(S[1]);
         break;
         case 'f':
-            if (wave) D[0][0] -= 0.1;
-            else D[1][0] -= 0.1;
+            if (wave) D[0][0] = disminuir(D[0][0]);
+            else D[1][0] = disminuir(D[1][0]);
         break;
         case 'v':
-            if (wave) D[0][0] += 0.1;
-            else D[1][0] += 0.1;
+            if (wave) D[0][0] = aumentar(D[0][0]);
+            else D[1][0] = aumentar(D[1][0]);
         break;
         case 'g':
-            if (wave) D[0][1] -= 0.1;
-            else D[1][1] -= 0.1;
+            if (wave) D[0][1] = disminuir(D[0][1]);
+            else D[1][1] = disminuir(D[1][1]);
         break;
         case 'b':
-            if (wave) D[0][1] += 0.1;
-            else D[1][1] += 0.1;
+            if (wave) D[0][1] = aumentar(D[0][1]);
+            else D[1][1] = aumentar(D[1][1]);
         break;
         default:
         break;
@@ -406,12 +426,12 @@ int main (int argc, char** argv) {
     glutReshapeFunc(changeViewport);
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
-
+/*
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
-    }
+    }*/
 
     glutMainLoop();
     return 0;
