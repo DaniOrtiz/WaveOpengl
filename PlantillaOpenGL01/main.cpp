@@ -81,6 +81,16 @@ void ejesCoordenada() {
 }
 
 // -------------------------------TEXTO-------------------------------
+const char* textos[7] = {
+    "Ola ",
+    "wL = ",  
+    "aP = ",
+    "sP = ",
+    "dirX = ",
+    "dirY = ",
+    "-> Ola "
+  };
+
 void imprimir_bitmap_string(void* font, const char* s){
     if (s && strlen(s)) {
         while (*s) {
@@ -99,51 +109,50 @@ void convertirTexto(const char* s, float i){
     imprimir_bitmap_string(font_style, C);
 }
 
-void dibujarTexto() {
-  const char* textos[7] = {
-    "Ola ",
-    "wL = ",  
-    "aP = ",
-    "sP = ",
-    "dirX = ",
-    "dirY = "
-  };
+GLfloat dibujarVariables(int i, GLfloat y, int s){
+  glColor3f(0.5f,0.0f,0.8f);
+  glRasterPos3f(0, y, 0);
+  y -= 0.4;
+  convertirTexto(textos[s],i);
 
-  GLfloat y = 0.0;
-
-  for(int i=1; i<3 ; i++){
-    glColor3f(1.0,0.0,0.0);
-    glRasterPos3f(0, y, 6);
+  glColor3f(1.0,1.0,1.0);
+  for(int j=1; j<6 ; j++){
+    glRasterPos3f(0, y, 0);
     y -= 0.4;
-    convertirTexto(textos[0],i);
-
-    glColor3f(1.0,1.0,1.0);
-      for(int j=1; j<7 ; j++){
-        glRasterPos3f(0, y, 6);
-        y -= 0.4;
-        switch (j){
-            case 1:
-                convertirTexto(textos[j],L[i-1]);
-            break;
-            case 2:
-                convertirTexto(textos[j],A[i-1]);
-            break;
-            case 3: 
-                convertirTexto(textos[j],S[i-1]);
-            break;
-            case 4: 
-                convertirTexto(textos[j],D[i-1][0]);
-            break;
-            case 5: 
-                convertirTexto(textos[j],D[i-1][1]);
-            break;
-            case 6: 
-                if(i==1) imprimir_bitmap_string(font_style, "==========");
-            break;
-        }        
-      }
+    switch (j){
+        case 1:
+            convertirTexto(textos[j],L[i-1]);
+        break;
+        case 2:
+            convertirTexto(textos[j],A[i-1]);
+        break;
+        case 3: 
+            convertirTexto(textos[j],S[i-1]);
+        break;
+        case 4: 
+            convertirTexto(textos[j],D[i-1][0]);
+        break;
+        case 5: 
+            convertirTexto(textos[j],D[i-1][1]);
+        break;
+    }        
   }
+  return y;
+}
 
+void dibujarTexto() {
+  GLfloat y;
+
+  if(wave) y = dibujarVariables(1, 0.0, 6);
+  else y = dibujarVariables(1, 0.0, 0);
+
+  glColor3f(0.7,0.7,0.7);
+  glRasterPos3f(0, y, 0);
+  y -= 0.4;
+  imprimir_bitmap_string(font_style, "==========");
+
+  if(wave) dibujarVariables(2, y, 0);
+  else dibujarVariables(2, y, 6);
 }
 // ----------------------------FIN TEXTO----------------------------
 
@@ -258,9 +267,11 @@ void Keyboard(unsigned char key, int x, int y){
         break;
         case '1': // Wave 1
             wave = true;
+            if(!mover) glutPostRedisplay();        
         break;
         case '2': // Wave 2
             wave = false;
+            if(!mover) glutPostRedisplay();        
         break;
         case 'a':
             if (wave) L[0] = L[0] - 0.1;
@@ -315,7 +326,7 @@ void render(){
     glPushMatrix();
       glDisable(GL_LIGHTING);
       glRotatef(-10,1.0f,0.0f,0.0f); 
-      glTranslatef(0,5,6); 
+      glTranslatef(0,5.2,12); 
       dibujarTexto();
       glEnable(GL_LIGHTING);
     glPopMatrix();
