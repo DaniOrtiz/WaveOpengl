@@ -12,6 +12,7 @@
 
 - M_PI es la constante que viene en la libreria de math.h, avisame si te funciona
 - Coloque una varable nueva "inicio", sin ella cada vez que apreta r se acelera la ola.
+- Cambie las variables a arreglos para que fuera mas sencillo mostrar el texto
 
 */
 using namespace std;
@@ -20,17 +21,17 @@ using namespace std;
 #define DEF_floorGridXSteps 10.0
 #define DEF_floorGridZSteps 10.0
 
-GLfloat L1 = 8.0,L2 = 4.0,A1 = 0.4,A2 = 0.0,S1 = 2.0,S2 = 0.0; /* inicializo en los valores del caso de prueba 1 */
-GLfloat D1[2] = {0.0,-1.0},D2[2]={1.0,1.0}; // 0 coord x, 1 coord z
-
-
+//GLfloat L[0] = 8.0,L[1] = 4.0,A[0] = 0.4,A[1] = 0.0,S[0] = 2.0,S[1] = 0.0; /* inicializo en los valores del caso de prueba 1 */
+GLfloat L[2] = {8.0,4.0};
+GLfloat A[2] = {0.4,0.0};
+GLfloat S[2] = {2.0,0.0};
+GLfloat D[2][2] = {{0.0,-1.0},{1.0,1.0}}; // 0 coord x, 1 coord z
 GLfloat knots[25]; 
 GLfloat supKnots = 0.05; // valor auxiliar para los knots del 4 al 20 
 GLfloat ctlpoints[21][21][3]; // 21x21 puntos de control; 0 coord x, 1 coord y, 2 coord z
 
-bool wave; // true = ola 1; false = ola 1
+bool wave; // true = ola 1; false = ola 2
 bool mover = false;  // variable que indica si las olas estan en movimeinto o paradas
-bool inicio = false; // variable que indica si la simulacion inicio
 
 GLfloat waves[2]; // arreglo para manejar las cosas de cada ola
 
@@ -88,18 +89,23 @@ typedef enum { MODE_BITMAP } mode_type;
 static mode_type mode;
 static int font_index;
 
-void imprimir_bitmap_string(void* font, const char* s){
-   if (s && strlen(s)) {
-      while (*s) {
-         glutBitmapCharacter(font, *s);
-         s++;
-      }
-   }
-}
-
 void my_init(){
    mode = MODE_BITMAP;
    font_index = 0;
+}
+
+void imprimir_bitmap_string(void* font, const char* s, float i){
+    std::stringstream ss;
+    ss << i;
+    std::string num(ss.str());
+    string c = s + num;
+    const char *C = c.c_str();
+    if (C && strlen(C)) {
+      while (*C) {
+         glutBitmapCharacter(font, *C);
+         C++;
+      }
+    }
 }
 
 void dibujarTexto(int n) {
@@ -109,20 +115,37 @@ void dibujarTexto(int n) {
   };
 
   const char* bitmap_font_names[7] = {
-    "Ola 1",
-    "Ola 2",
+    "Ola ",
     "wL = ",  
-    "aP =",
-    "sP =",
-    "dirX =",
-    "dirY ="
+    "aP = ",
+    "sP = ",
+    "dirX = ",
+    "dirY = "
   };
 
-  glColor3f(1.0,1.0,1.0);
-
-  GLfloat y = 0.0;
 
 
+  GLfloat y = 6.0;
+/*
+GLfloat L[2] = {8.0,4.0};
+GLfloat A[2] = {0.4,0.0};
+GLfloat S[2] = {2.0,0.0};
+GLfloat D[2][
+*/
+
+  for(int i=1; i<3 ; i++){
+    glColor3f(1.0,0,0);
+    glRasterPos2f(0,y);
+    y -= 0.4;
+    imprimir_bitmap_string(bitmap_fonts[0], bitmap_font_names[0],i);
+    glColor3f(1.0,1.0,1.0);
+    for(int j=1; j<6 ; j++){
+        glRasterPos2f(0,y);
+        y -= 0.4;
+        imprimir_bitmap_string(bitmap_fonts[0], bitmap_font_names[j],j);
+        
+      }
+  }
 
 }
 // ----------------------------FIN TEXTO----------------------------
@@ -159,8 +182,7 @@ void init_surface() {
             cz -= 1.0;
     }
 
-    // Superficie Knots
-    
+    // Superficie Knots    
     for (int i = 0; i < 25; i++) {
         if (i < 4) {
             knots[i] = 0.0;
@@ -195,20 +217,20 @@ void init(){
 
 float funcionH(GLfloat cx, GLfloat cz, GLfloat tiempo){
 
-    frecuency[0] = 2*M_PI/L1;
-    frecuency[1] = 2*M_PI/L2;
+    frecuency[0] = 2*M_PI/L[0];
+    frecuency[1] = 2*M_PI/L[1];
 
-    phase[0] = S1*frecuency[0];
-    phase[1] = S2*frecuency[1];
+    phase[0] = S[0]*frecuency[0];
+    phase[1] = S[1]*frecuency[1];
 
-    D1normalizado[0] = D1[0]/sqrt(pow (D1[0],2) + pow (D1[1],2));
-    D1normalizado[1] = D1[1]/sqrt(pow (D1[0],2) + pow (D1[1],2));
+    D1normalizado[0] = D[0][0]/sqrt(pow (D[0][0],2) + pow (D[0][1],2));
+    D1normalizado[1] = D[0][1]/sqrt(pow (D[0][0],2) + pow (D[0][1],2));
 
-    D2normalizado[0] = D2[0]/sqrt(pow (D2[0],2) + pow (D2[1],2));
-    D2normalizado[1] = D2[1]/sqrt(pow (D2[0],2) + pow (D2[1],2));
+    D2normalizado[0] = D[1][0]/sqrt(pow (D[1][0],2) + pow (D[1][1],2));
+    D2normalizado[1] = D[1][1]/sqrt(pow (D[1][0],2) + pow (D[1][1],2));
     
-    waves[0] = A1*sin((D1normalizado[0]*cx + D1normalizado[1]*cz)*frecuency[0]+ tiempo*phase[0]);
-    waves[1] = A2*sin((D2normalizado[0]*cx + D2normalizado[1]*cz)*frecuency[1]+ tiempo*phase[1]);
+    waves[0] = A[0]*sin((D1normalizado[0]*cx + D1normalizado[1]*cz)*frecuency[0]+ tiempo*phase[0]);
+    waves[1] = A[1]*sin((D2normalizado[0]*cx + D2normalizado[1]*cz)*frecuency[1]+ tiempo*phase[1]);
 
     return (waves[0] + waves[1]);
     
@@ -230,10 +252,9 @@ void animacionOla(int h) {
 void Keyboard(unsigned char key, int x, int y){
     switch (key){
         case 'r':
-            mover = true;
-            if(!inicio){
+            if(!mover){
+                mover = true;
                 animacionOla(1);// comienza la animacion de las olas.
-                inicio = true;
             }
         break;
         case 'p':
@@ -246,44 +267,44 @@ void Keyboard(unsigned char key, int x, int y){
             wave = false;
         break;
         case 'a':
-            if (wave) L1 = L1 - 0.1;
-            else L2 = L2 - 0.1;
+            if (wave) L[0] = L[0] - 0.1;
+            else L[1] = L[1] - 0.1;
         break;
         case 'z':
-            if (wave) L1 = L1 + 0.1;
-            else L2 = L2 + 0.1;
+            if (wave) L[0] = L[0] + 0.1;
+            else L[1] = L[1] + 0.1;
         break;
         case 's':
-            if (wave) A1 = A1 - 0.1;
-            else A2 = A2 - 0.1;
+            if (wave) A[0] = A[0] - 0.1;
+            else A[1] = A[1] - 0.1;
         break;
         case 'x':
-            if (wave) A1 = A1 + 0.1;
-            else A2 = A2 + 0.1;
+            if (wave) A[0] = A[0] + 0.1;
+            else A[1] = A[1] + 0.1;
         break;
         case 'd':
-            if (wave) S1 = S1 - 0.1;
-            else S2 = S2 - 0.1;
+            if (wave) S[0] = S[0] - 0.1;
+            else S[1] = S[1] - 0.1;
         break;
         case 'c':
-            if (wave) S1 = S1 + 0.1;
-            else S2 = S2 + 0.1;
+            if (wave) S[0] = S[0] + 0.1;
+            else S[1] = S[1] + 0.1;
         break;
         case 'f':
-            if (wave) D1[0] = D1[0] - 0.1;
-            else D2[0] = D2[0] - 0.1;
+            if (wave) D[0][0] = D[0][0] - 0.1;
+            else D[1][0] = D[1][0] - 0.1;
         break;
         case 'v':
-            if (wave) D1[0] = D1[0] + 0.1;
-            else D2[0] = D2[0] + 0.1;
+            if (wave) D[0][0] = D[0][0] + 0.1;
+            else D[1][0] = D[1][0] + 0.1;
         break;
         case 'g':
-            if (wave) D1[1] = D1[1] - 0.1;
-            else D2[1] = D2[1] - 0.1;
+            if (wave) D[0][1] = D[0][1] - 0.1;
+            else D[1][1] = D[1][1] - 0.1;
         break;
         case 'b':
-            if (wave) D1[1] = D1[1] + 0.1;
-            else D2[1] = D2[1] - 0.1;
+            if (wave) D[0][1] = D[0][1] + 0.1;
+            else D[1][1] = D[1][1] - 0.1;
         break;
     }
 }
@@ -385,6 +406,7 @@ int main (int argc, char** argv) {
     glutCreateWindow("Nurbs Proyecto - Ola");
 
     init ();
+    my_init();
 
     glutReshapeFunc(changeViewport);
     glutDisplayFunc(render);
