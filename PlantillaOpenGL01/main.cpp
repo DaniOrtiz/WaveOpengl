@@ -94,26 +94,26 @@ void my_init(){
    font_index = 0;
 }
 
-void imprimir_bitmap_string(void* font, const char* s, float i){
+void imprimir_bitmap_string(void* font, const char* s, float y){
+    glRasterPos2f(0,y);
+    if (s && strlen(s)) {
+        while (*s) {
+            glutBitmapCharacter(font, *s);
+            s++;
+        }
+    }
+}
+
+void convertir_ConstChar(const char* s, float i){
     std::stringstream ss;
     ss << i;
     std::string num(ss.str());
     string c = s + num;
     const char *C = c.c_str();
-    if (C && strlen(C)) {
-      while (*C) {
-         glutBitmapCharacter(font, *C);
-         C++;
-      }
-    }
+    imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, C);
 }
 
 void dibujarTexto(int n) {
-  void* bitmap_fonts[2] = {
-    GLUT_BITMAP_9_BY_15,
-    GLUT_BITMAP_HELVETICA_10,   
-  };
-
   const char* bitmap_font_names[7] = {
     "Ola ",
     "wL = ",  
@@ -123,28 +123,35 @@ void dibujarTexto(int n) {
     "dirY = "
   };
 
-
-
   GLfloat y = 6.0;
-/*
-GLfloat L[2] = {8.0,4.0};
-GLfloat A[2] = {0.4,0.0};
-GLfloat S[2] = {2.0,0.0};
-GLfloat D[2][
-*/
 
   for(int i=1; i<3 ; i++){
     glColor3f(1.0,0,0);
     glRasterPos2f(0,y);
-    y -= 0.4;
-    imprimir_bitmap_string(bitmap_fonts[0], bitmap_font_names[0],i);
+    convertir_ConstChar(bitmap_font_names[0],i);
     glColor3f(1.0,1.0,1.0);
     for(int j=1; j<6 ; j++){
         glRasterPos2f(0,y);
         y -= 0.4;
-        imprimir_bitmap_string(bitmap_fonts[0], bitmap_font_names[j],j);
-        
-      }
+        switch (j){
+            case 1:
+                convertir_ConstChar(bitmap_font_names[j],L[i]);
+            break;
+            case 2:
+                convertir_ConstChar(bitmap_font_names[j],A[i]);
+            break;
+            case 3: 
+                convertir_ConstChar(bitmap_font_names[j],S[i]);
+            break;
+            case 4: 
+                convertir_ConstChar(bitmap_font_names[j],D[i][0]);
+            break;
+            case 5: 
+                convertir_ConstChar(bitmap_font_names[j],D[i][1]);
+            break;
+        }        
+    }
+    if(i==1) imprimir_bitmap_string(GLUT_BITMAP_9_BY_15, "===================");
   }
 
 }
