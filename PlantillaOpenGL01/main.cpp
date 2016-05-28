@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+#include <GL\glew.h>
+#include <GL\freeglut.h>
 
 /* 
 
@@ -406,13 +406,12 @@ int main (int argc, char** argv) {
     glutReshapeFunc(changeViewport);
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
-        /*
+    
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
     }
-    */
 
     glutMainLoop();
     return 0;
