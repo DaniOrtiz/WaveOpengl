@@ -7,7 +7,7 @@
 
 /* 
 
-- M_PI es la constante que viene en la libreria de math.h, avisame si te funciona
+- PI es la constante que viene en la libreria de math.h, avisame si te funciona
 - Cambie las variables a arreglos para que fuera mas sencillo mostrar el texto
 - agregue la funcion aumentar y disminuir para que influyera menos la resta de punto flotante 
 cuando esta cerca del 0
@@ -18,6 +18,7 @@ using namespace std;
 #define DEF_floorGridScale  1.0
 #define DEF_floorGridXSteps 10.0
 #define DEF_floorGridZSteps 10.0
+#define PI 3.14159265358979f
 
 GLfloat L[2] = {8.0,4.0};
 GLfloat A[2] = {0.4,0.0};
@@ -87,14 +88,16 @@ void ejesCoordenada() {
 }
 
 // -------------------------------TEXTO-------------------------------
-const char* textos[7] = {
+const char* textos[9] = {
     "Ola ",
     "wL = ",  
     "aP = ",
     "sP = ",
     "dirX = ",
     "dirY = ",
-    "-> Ola "
+    "-> Ola ",
+    "Presiona 1 o 2 para seleccionar una ola.",
+    "Presione r para iniciar la animacion."
   };
 
 void imprimir_bitmap_string(void* font, const char* s){
@@ -148,6 +151,17 @@ void dibujarTexto() {
 
   if(!wave && inicio) dibujarVariables(2, 6);
   else dibujarVariables(2, 0);
+
+  glColor3f(0.7,0.7,0.0);
+  if(!inicio){
+    glRasterPos3f(0, 0, -5);
+    imprimir_bitmap_string(font_style, textos[7]);
+  }
+  if(!mover){
+    glRasterPos3f(0, -interlineado, -5);
+    imprimir_bitmap_string(font_style, textos[8]);
+  }
+    
 }
 // ----------------------------FIN TEXTO----------------------------
 
@@ -221,8 +235,8 @@ void init(){
 
 float funcionH(GLfloat cx, GLfloat cz, GLfloat tiempo){
 
-    frecuency[0] = 2*M_PI/L[0];
-    frecuency[1] = 2*M_PI/L[1];
+    frecuency[0] = 2*PI/L[0];
+    frecuency[1] = 2*PI/L[1];
 
     phase[0] = S[0]*frecuency[0];
     phase[1] = S[1]*frecuency[1];
