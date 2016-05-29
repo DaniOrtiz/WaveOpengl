@@ -146,6 +146,10 @@ void dibujarTexto() {
   else dibujarVariables(2, 0);
 
   glColor3f(0.7,0.7,0.0);
+  if(ctlpointsActive){
+    glRasterPos3f(0, interlineado-0.2, -3);
+    imprimir_bitmap_string(font_style, textos[9]);
+  }
   if(!inicio){
     glRasterPos3f(0, 0, -5);
     imprimir_bitmap_string(font_style, textos[7]);
@@ -153,10 +157,6 @@ void dibujarTexto() {
   if(!mover){
     glRasterPos3f(0, -interlineado, -5);
     imprimir_bitmap_string(font_style, textos[8]);
-  }
-  if(ctlpointsActive){
-    glRasterPos3f(0, 0.1, -3);
-    imprimir_bitmap_string(font_style, textos[9]);
   }
 }
 // ----------------------------FIN TEXTO----------------------------
