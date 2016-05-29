@@ -88,7 +88,7 @@ void ejesCoordenada() {
 }
 
 // -------------------------------TEXTO-------------------------------
-const char* textos[9] = {
+const char* textos[10] = {
     "Ola ",
     "wL = ",  
     "aP = ",
@@ -97,7 +97,8 @@ const char* textos[9] = {
     "dirY = ",
     "-> Ola ",
     "Presiona 1 o 2 para seleccionar una ola.",
-    "Presione r para iniciar la animacion."
+    "Presione r para iniciar la animacion.",
+    "Presionar space para deshabilitar los puntos de control."
   };
 
 void imprimir_bitmap_string(void* font, const char* s){
@@ -161,7 +162,10 @@ void dibujarTexto() {
     glRasterPos3f(0, -interlineado, -5);
     imprimir_bitmap_string(font_style, textos[8]);
   }
-    
+  if(ctlpointsActive){
+    glRasterPos3f(0, 0.1, -3);
+    imprimir_bitmap_string(font_style, textos[9]);
+  }
 }
 // ----------------------------FIN TEXTO----------------------------
 
