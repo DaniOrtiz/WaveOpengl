@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 
 /* 
 
@@ -31,8 +31,9 @@ float posText;      //posicion del texto
 float interlineado; //interlineado del texto
 GLvoid *font_style = GLUT_BITMAP_9_BY_15; //tipo de letra
 
-bool wave  = true;            // true = ola 1; false = ola 2
+bool wave;                    // true = ola 1; false = ola 2
 bool mover = false;           // variable que indica si las olas estan en movimeinto o paradas
+bool inicio;                  // inicia cuando se selecciona una ola
 bool ctlpointsActive = false; // activar puntos de control
 
 GLfloat waves[2]; // arreglo para manejar las cosas de cada ola
@@ -137,7 +138,7 @@ void dibujarVariables(int i, int s){
 void dibujarTexto() {
   posText = 0.0;
 
-  if(wave) dibujarVariables(1, 6);
+  if(wave && inicio) dibujarVariables(1, 6);
   else dibujarVariables(1, 0);
 
   glColor3f(0.7,0.7,0.7);
@@ -145,8 +146,8 @@ void dibujarTexto() {
   posText -= interlineado;
   imprimir_bitmap_string(font_style, "==========");
 
-  if(wave) dibujarVariables(2, 0);
-  else dibujarVariables(2, 6);
+  if(!wave && inicio) dibujarVariables(2, 6);
+  else dibujarVariables(2, 0);
 }
 // ----------------------------FIN TEXTO----------------------------
 
@@ -281,48 +282,60 @@ void Keyboard(unsigned char key, int x, int y){
             mover = false;// se pausa la animacion de las olas.
         break;
         case '1': // Wave 1
-            wave = true;    
+            wave = true;   
+            inicio = true; 
         break;
         case '2': // Wave 2
-            wave = false;     
+            wave = false;  
+            inicio = true;   
         break;
         case 'a':
+          if(inicio)
             if (wave) L[0] = disminuir(L[0]);
             else L[1] = disminuir(L[1]);
         break;
         case 'z':
+          if(inicio)
             if (wave) L[0] = aumentar(L[0]);
             else L[1] = aumentar(L[1]);
         break;
         case 's':
+          if(inicio)
             if (wave) A[0] = disminuir(A[0]);
             else A[1] = disminuir(A[1]);
         break;
         case 'x':
+          if(inicio)
             if (wave) A[0] = aumentar(A[0]);
             else A[1] = aumentar(A[1]);
         break;
         case 'd':
+          if(inicio)
             if (wave) S[0] = disminuir(S[0]);
             else S[1] = disminuir(S[1]);
         break;
         case 'c':
+          if(inicio)
             if (wave) S[0] = aumentar(S[0]);
             else S[1] = aumentar(S[1]);
         break;
         case 'f':
+          if(inicio)
             if (wave) D[0][0] = disminuir(D[0][0]);
             else D[1][0] = disminuir(D[1][0]);
         break;
         case 'v':
+          if(inicio)
             if (wave) D[0][0] = aumentar(D[0][0]);
             else D[1][0] = aumentar(D[1][0]);
         break;
         case 'g':
+          if(inicio)
             if (wave) D[0][1] = disminuir(D[0][1]);
             else D[1][1] = disminuir(D[1][1]);
         break;
         case 'b':
+          if(inicio)
             if (wave) D[0][1] = aumentar(D[0][1]);
             else D[1][1] = aumentar(D[1][1]);
         break;
@@ -426,11 +439,12 @@ int main (int argc, char** argv) {
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
 
+/*
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
-    }
+    }*/
 
     glutMainLoop();
     return 0;
