@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+#include <GL\glew.h>
+#include <GL\freeglut.h>
 
 /* 
 
@@ -96,9 +96,9 @@ const char* textos[10] = {
     "dirX = ",
     "dirY = ",
     "-> Ola ",
-    "Presiona 1 o 2 para seleccionar una ola.",
-    "Presione r para iniciar la animacion.",
-    "Presionar space para deshabilitar los puntos de control."
+    "Presiona 1 o 2 para seleccionar una ola.\0",
+    "Presione r para iniciar la animacion.\0",
+    "Presionar space para deshabilitar los puntos de control.\0"
   };
 
 void imprimir_bitmap_string(void* font, const char* s){
@@ -457,12 +457,11 @@ int main (int argc, char** argv) {
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
 
-/*
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
-    }*/
+    }
 
     glutMainLoop();
     return 0;
