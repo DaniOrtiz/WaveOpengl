@@ -2,7 +2,7 @@
 Computación Gráfica I | USB <br />
 Proyecto 3: OpenGL - Efecto de Ola 
 
-Presionar *1* para elegir la Ola 1 y *2* para elegir la ola 2.<br />
+Presionar **1** para elegir la Ola 1 y **2** para elegir la ola 2.<br />
 
 Para alterar el comportamiento de la ola, usar las teclas:<br />
 *z* - Aumenta la distancia entre cada ola<br />
@@ -16,6 +16,18 @@ Para alterar el comportamiento de la ola, usar las teclas:<br />
 *b* - Aumenta la coordenada que determina la dirección Y de la ola <br />
 *g* - Disminuye la coordenada que determina la dirección Y de la ola <br />
  
-Presionar *r* para inciar la animación y *p* para pausar. <br />
+Presionar **r** para inciar la animación y **p** para pausar. <br />
 
 Para activar y desactivar puntos de control usar barra espaciadora. <br />
+
+**Linux:**<br />
+
+Compilar:
+> cmake CMakeLists.txt <br />
+> make
+
+Ejecutar:
+> ./Proyecto
+
+**Windows:**<br />
+Usar Visual Studio 2012
