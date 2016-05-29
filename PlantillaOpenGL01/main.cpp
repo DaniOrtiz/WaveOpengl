@@ -2,17 +2,9 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+#include <GL\glew.h>
+#include <GL\freeglut.h>
 
-/* 
-
-- PI es la constante que viene en la libreria de math.h, avisame si te funciona
-- Cambie las variables a arreglos para que fuera mas sencillo mostrar el texto
-- agregue la funcion aumentar y disminuir para que influyera menos la resta de punto flotante 
-cuando esta cerca del 0
-
-*/
 using namespace std;
 
 #define DEF_floorGridScale  1.0
@@ -453,12 +445,11 @@ int main (int argc, char** argv) {
     glutDisplayFunc(render);
     glutKeyboardFunc (Keyboard);
 
-/*
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         fprintf(stderr, "GLEW error");
         return 1;
-    }*/
+    }
 
     glutMainLoop();
     return 0;
