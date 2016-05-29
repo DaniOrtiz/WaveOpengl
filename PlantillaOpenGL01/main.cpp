@@ -88,9 +88,9 @@ const char* textos[10] = {
     "dirX = ",
     "dirY = ",
     "-> Ola ",
-    "Presiona 1 o 2 para seleccionar una ola.",
-    "Presione r para iniciar la animacion.",
-    "Presionar space para deshabilitar los puntos de control."
+    "Presiona 1 o 2 para seleccionar una ola.\0",
+    "Presione r para iniciar la animacion.\0",
+    "Presionar space para deshabilitar los puntos de control.\0"
   };
 
 void imprimir_bitmap_string(void* font, const char* s){
